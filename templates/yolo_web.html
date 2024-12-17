@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>평화누리특별자치도팀</title>
+    <style>
+        /* 영상 중앙 정렬을 위한 CSS */
+        .video-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+    <script>
+        // AJAX를 사용하여 주기적으로 서버에서 탐지 정보를 가져와 업데이트
+        function updateDetectionInfo() {
+            fetch('/get_detection_info')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('detection-name').textContent = data.detection_info;
+                })
+                .catch(error => console.log('Error:', error));
+        }
+
+        // 1초마다 탐지 정보를 업데이트
+        setInterval(updateDetectionInfo, 1000);
+    </script>
+</head>
+<body>
+    <h1>당신은 누구입니까?</h1>
+
+    <!-- 영상 중앙 정렬을 위한 div 추가 -->
+    <div class="video-container">
+        <img src="{{ url_for('video_feed') }}" alt="Video Feed" style="width: 1000px; height: 760px;">
+    </div>
+
+    <!-- 이 부분은 Python 코드가 아닌 서버에서 처리 후 이름을 HTML로 전달 -->
+    <p>이름: <span id="detection-name">탐지된 객체가 없습니다.</span></p>
+</body>
+</html>
